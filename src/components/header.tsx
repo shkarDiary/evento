@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 const routes = [
   {
     name: "home",
@@ -19,13 +20,13 @@ export default function Header() {
 
   return (
     <header className=" flex justify-between items-center borderb border-white/10 h-14 sm:px-9 px-3  ">
-      <h1>EVENTO</h1>
+      <h1>{<Link href={routes[0].path}>Evento</Link>}</h1>
       <nav className="h-full">
         <ul className="flex h-full gap-x-6 ">
           {routes.map((route) => (
             <li
               key={route.name}
-              className={clsx(
+              className={cn(
                 " hover:text-white flex items-center transition relative",
                 {
                   "text-white": activePathname === route.path,
