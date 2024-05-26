@@ -1,19 +1,22 @@
-import { EventoEvent } from "@/lib/types";
 import EventCard from "./event-card";
+import { getEvents } from "@/lib/utils";
+import PaginationControls from "./pagination-controls";
 
 type EventListProps = {
   city: string;
+  page: number;
 };
-export default async function EventsList({ city }: EventListProps) {
-  const response = await fetch(
-    `https://bytegrad.com/course-assets/projects/evento/api/events?city=${city}`
-  );
-  const events: EventoEvent[] = await response.json();
+export default async function EventsList({ city, page }: EventListProps) {
+  const { events, totalCount } = await getEvents(city, page);
+  const previousPath = page > 1 ? `/events/${city}/?page=${page - 1}` : "";
+  const nextPath =
+    page * 6 < totalCount ? `/events/${city}/?page=${page + 1}` : "";
   return (
-    <section className="  flex flex-wrap gap-10 justify-center ">
-      {events.map((event) => (
+    <section className=" max-w-[1100px] flex flex-wrap gap-10 justify-center px-[20px]  ">
+      {(await events).map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
+      <PaginationControls previousPath={previousPath} nextPath={nextPath} />
     </section>
   );
 }
