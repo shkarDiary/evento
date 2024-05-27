@@ -9,9 +9,12 @@ export default function SearchForm() {
     e.preventDefault();
     router.push(`/event/${search}`);
   };
+  const handleOnChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+    setSearch(e.target.value);
+  };
   return (
     <form
-      onChange={(e) => setSearch(e.target.value)}
+      onChange={handleOnChange}
       onSubmit={handleOnSubmit}
       className=" w-full sm:w-[580px]  "
       action=""
